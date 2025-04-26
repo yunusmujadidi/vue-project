@@ -1,0 +1,26 @@
+# use node.js images
+FROM node:20
+
+# set working directory
+WORKDIR /app
+
+# copy npm package 
+COPY package*.json ./
+
+# install depencencies
+RUN npm install
+
+# copy projects
+COPY . .
+
+# build projects
+RUN npm run build
+
+# install web server
+RUN npm install -g server
+
+# set up the port for the server
+EXPOSE 3000
+
+# start the app
+CMD ["serve", "-s", "dist", "-l", "3000"]
